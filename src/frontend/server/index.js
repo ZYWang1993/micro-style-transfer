@@ -12,4 +12,4 @@ app.use(bodyParser.json())
 app.use('/image', imageRouter)
 app.use('/transfer', styleTransferRouter)
 
-app.listen(8888)
+app.listen(8888, '0.0.0.0')

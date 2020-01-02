@@ -1,6 +1,4 @@
 # aws credentials #
 ###################
-aws_config.json
-config.js
-
+client.js
 /node_modules
