@@ -78,18 +78,44 @@ function getUid(call, callback) {
 }
 
 function transferCompleted(call, callback) {
-  let status = 'false';
-  if (call.request.id) {
-    status = 'true'
+  let id = call.request.id;
+  if (typeof id != 'undefined' && id.length > 6) {
+    redisClient.addToBF(id)
+    .then((res) => {
+      callback(null, {status: 'true'});
+    })
+    .catch((err) => {
+      console.log(err);
+      callback(null, {status: 'false'});
+    });
+  } else {
+    callback(null, {status: 'false'});
   }
-  callback(null, {status: status});
+}
+
+function isImageExist(call, callback) {
+  let id = call.request.id;
+  if (typeof id != 'undefined' && id.length > 6) {
+    redisClient.bfContains(id)
+    .then((res) => {
+      let isContain = res ? 'true' : 'false';
+      callback(null, {status: isContain});
+    })
+    .catch((err) => {
+      console.log(err);
+      callback(null, {status: 'error'});
+    });
+  } else {
+    callback(null, {status: 'false'});
+  }
 }
 
 function getUidManagementServer() {
   var server = new grpc.Server();
   server.addService(uidmanagement.UidManagement.service, {
     GetUid: getUid,
-    TransferCompleted: transferCompleted
+    TransferCompleted: transferCompleted,
+    IsImageExist: isImageExist
   });
   return server;
 }

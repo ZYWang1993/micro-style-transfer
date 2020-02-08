@@ -1,7 +1,9 @@
 .App {
   text-align: center;
 }
-
+.navbar-width {
+  width: 100%;
+}
 .App-logo {
   height: 12vmin;
   pointer-events: none;
@@ -14,8 +16,9 @@
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 20vh;
+  background-color: rgb(53, 58, 64);
+  /* background: url("bg.jpg") no-repeat center center; */
+  min-height: 12vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -23,6 +26,7 @@
   font-size: calc(20px + 3vmin);
   color: white;
 }
+
 
 .App-imageUpload{
   font-size: 30px;
@@ -49,6 +53,47 @@
   to {
     transform: rotate(360deg);
   }
+}
+.downloadcontainer {
+  margin: auto;
+  width: 50%;
+  margin-bottom: 3%;
+}
+.home {
+
+}
+.beijing {
+  width: auto;
+  margin: auto auto;
+  text-align: center;
+
+}
+.beijing img {
+  display: inline-block !important;
+  margin-top: 3%;
+  width: 350px;
+  height: 270px;
+  /* max-width: 100% !important; */
+}
+.buttons {
+  margin: 3% auto;
+  width: 50%;
+}
+.onebutton {
+  /* margin: 5% auto; */
+}
+
+.div-center {
+  text-align: center;
+  width: 50%;
+  margin-top: 2%;
+  margin-bottom: 3%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.div-center-img {
+  margin-bottom: 3%;
 }
 
 /*------------------------------------------------------*/

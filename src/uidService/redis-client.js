@@ -1,4 +1,5 @@
 const redis = require('redis');
+const BloomFilter = require('bloomfilter-redis');
 const {promisify} = require('util');
 const config = require('./config');
 const client = redis.createClient(config.redis.port, config.redis.host);
@@ -11,12 +12,50 @@ const rpushxAsync = promisify(client.rpushx).bind(client);
 const incrAsync = promisify(client.incr).bind(client);
 const keysAsync = promisify(client.keys).bind(client);
 
+const bf = new BloomFilter({
+  redisSize: 20, // this will create a string value which is 20 MegaBytes in length
+  hashesNum: 8, // how many hash functions do we use
+  redisKey: 'bloomFilter', //this will create a string which keyname is `test`
+  redisClient: client //you can choose to create the client by yourself
+});
+const bfPromise = bf.init(); // invokes `SETBIT` to allocate memory in redis
+
+function addToBF(id) {
+  return new Promise((reslove, reject) => {
+    bfPromise
+    .then(() => {
+      return bf.add(id);
+    })
+    .then(() => {
+      reslove('success');
+    })
+    .catch((err) => {
+      reject(err);
+    });
+  });
+}
+
+function bfContains(id) {
+  return new Promise((reslove, reject) => {
+    bfPromise
+    .then(() => {
+      return bf.contains(id);
+    })
+    .then((result) => {
+      reslove(result);
+    })
+    .catch((err) => {
+      reject(err);
+    });
+  });
+}
+
 function apiRateLimiter(ip) {
   return new Promise((reslove, reject) => {
 
     llenAsync(ip)
     .then((current) => {
-      if (current > 100) {
+      if (current > config.apiRateLimit) {
         reject('tooManyRequests');
       } else {
         return existAsync(ip);
@@ -66,5 +105,7 @@ function getCounter(key) {
 module.exports = {
   ...client,
   getCounter: getCounter,
-  apiRateLimiter: apiRateLimiter
+  apiRateLimiter: apiRateLimiter,
+  addToBF: addToBF,
+  bfContains: bfContains
 };

@@ -9,6 +9,10 @@ package uidmanagement;
 
 service UidManagement {
   rpc GetUid(IpAddress) returns (Uid) {}
+
+  rpc TransferCompleted(Id) returns (Status) {}
+
+  rpc IsImageExist(Id) returns (Status) {}
 }
 
 message IpAddress {
@@ -17,4 +21,12 @@ message IpAddress {
 
 message Uid {
   string uid = 1;
+}
+
+message Id {
+  string id = 1;
+}
+
+message Status {
+  string status = 1;
 }

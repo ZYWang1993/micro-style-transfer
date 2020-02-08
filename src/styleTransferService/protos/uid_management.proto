@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+//python -m grpc_tools.protoc -I./protos --python_out=. --grpc_python_out=. ./protos/uid_management.proto
+
 option java_multiple_files = true;
 option java_package = "io.grpc.examples.uidmanagement";
 option java_outer_classname = "UidManagementProto";
@@ -11,8 +13,6 @@ service UidManagement {
   rpc GetUid(IpAddress) returns (Uid) {}
 
   rpc TransferCompleted(Id) returns (Status) {}
-
-  rpc IsImageExist(Id) returns (Status) {}
 }
 
 message IpAddress {

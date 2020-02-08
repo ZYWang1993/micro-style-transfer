@@ -1,16 +1,14 @@
-FROM python:3.7-alpine
+FROM ubuntu:16.04
+WORKDIR /arbitrary-transfer
+COPY . . 
+RUN apt-get update
+RUN apt-get -y install python3
+RUN apt-get -y install python3-pip
+RUN apt-get install -y wget
+RUN apt-get install -y tar
+RUN wget https://storage.googleapis.com/download.magenta.tensorflow.org/models/arbitrary_style_transfer.tar.gz
+RUN tar -xvzf arbitrary_style_transfer.tar.gz
+RUN pip3 install --upgrade pip
+RUN pip3 install -r requirements.txt
 
-# get and install packages
-WORKDIR /styleTransferService
-COPY requirements.txt requirements.txt
-RUN pip install -r requirements.txt
-
-# add files into working directory
-COPY . .
-
-ENV PORT "8080"
-ENV WORKERS 2
-
-EXPOSE 8080
-
-CMD gunicorn -w 2 -b 0.0.0.0:8080 style_transfer_server:app
+CMD ["python3", "receive.py"]

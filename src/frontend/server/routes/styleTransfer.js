@@ -1,16 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const amqp = require('amqplib/callback_api');
-const multer = require('multer')
+const multer = require('multer');
 const config = require('../config');
 const AWS = require('aws-sdk');
 const path = require('path');
-const fs = require('fs')
-const { promisify } = require('util')
-const unlinkAsync = promisify(fs.unlink)
+const fs = require('fs');
+const { promisify } = require('util');
+const unlinkAsync = promisify(fs.unlink);
 
 // Create S3 service object
-AWS.config.loadFromPath('./aws_config.json')
+AWS.config.loadFromPath('./aws_config.json');
 const s3 = new AWS.S3();
 
 // Create grpc client
@@ -52,7 +52,6 @@ function getFileExt(mimeType){
 function genUploadParams(filePath, uploadKey) {
   // Configure the file stream and obtain the upload parameters
   var uploadParams = {Bucket: config.s3Server.bucket, Key: '', Body: ''};
-  var fs = require('fs');
   var fullPath = path.join(__dirname, filePath);
   var fileStream = fs.createReadStream(fullPath);
   fileStream.on('error', function(err) {
