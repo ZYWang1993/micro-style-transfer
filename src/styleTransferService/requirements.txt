@@ -12,7 +12,7 @@ jmespath==0.9.4
 Keras-Applications==1.0.8
 Keras-Preprocessing==1.1.0
 Markdown==3.1.1
-numpy==1.18.0
+numpy==1.22.0
 opt-einsum==3.1.0
 pika==1.1.0
 Pillow==6.2.1
