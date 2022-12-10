@@ -12,7 +12,7 @@
     "amqplib": "^0.5.5",
     "aws-sdk": "^2.588.0",
     "cors": "^2.8.5",
-    "express": "~4.16.0",
+    "express": "~4.17.3",
     "grpc": "^1.24.2",
     "@grpc/proto-loader": "^0.5.3",
     "multer": "^1.4.2",
